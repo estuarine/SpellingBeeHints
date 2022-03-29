@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 
 #############################################################
-## Spelling3.pl 
+## Spelling.pl 
 ##
 ## Hints generator for the NYT Spelling Bee (https://www.nytimes.com/puzzles/spelling-bee).
 ## 
@@ -13,6 +13,7 @@
 ## -- How many more words of various lengths remain?
 ## -- How many more words remain that beginning with each letter?
 ## -- How many missing words remain in between the alread-found answers?
+## -- How many more words remain that begin with various two-letter pairs?
 ##
 ## But the script is flexible enough to add other hints that people may suggest.
 ##
