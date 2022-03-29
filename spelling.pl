@@ -345,14 +345,19 @@ sub find_before_and_after {
     my $word_word                     = sub { return $_[0] == 1 ? 'word' : 'words' };
     my ( @before_and_after );
     
+    # Go through the users' words one at a time, figure out where they exist in the full
+    # answer list, then start figuring out where the missing words are.
 
     for my $this_word( @$words_list ) {
         
+	# Is this the user's last word? If not, what's their next word?
+	
         my $position  = $place_in_words->{ $this_word };
         my $next_word = $words_list->[ $position + 1 ] || '**END**';
 
-        #Make sure the current word and the next one both exist in the answer list
-        #If they don't, return an error
+        # Make sure the user's current word and the next one both exist in the answer list.
+        # If either one of them doesn't, return an error message.
+	
         for my $word( $this_word, $next_word ) {
             
             unless ( defined $place_in_answers->{ $word } || $word eq '**END**'  ) {
@@ -364,9 +369,9 @@ sub find_before_and_after {
             
             }
         
-        #Special case #1: Is this the first word in our list?
-        #If so, is it also the first word in the answer list?
-        #Or do some answers come before it?
+        # Special case #1: Is this the first word in the user's list?
+        # If so, is it also the first word in the answer list?
+        # Or do some answers come before it?
         
         if ( $position == 0 ) {
             
@@ -384,8 +389,8 @@ sub find_before_and_after {
             
             }
             
-        #Special case #2: Have we come to the end of our word list?
-        #If so, is our last word also the last answer, or are there answers after it?
+        # Special case #2: Have we come to the end of our word list?
+        # If so, is the user's last word also the last answer, or do answers exist after it?
         
         if ( $next_word eq '**END**') {
             
@@ -401,9 +406,9 @@ sub find_before_and_after {
        
                 }
             
-            #We've run out of special cases, so treat this as an ordinary word.
-            #Find out how many answers exist between this and our next word
-            #But don't report any zeroes
+            # We've run out of special cases, so treat this as an ordinary word.
+            # Find out how many answers exist between this and the user's next word.
+            # But don't report any zeroes.
             
             } else {
             
@@ -425,6 +430,8 @@ sub find_before_and_after {
 # Find the next hint using the hint type, word list and answer list this
 # function has been provided. Keep track of how many hints the user has
 # gotten so far, and return "done" if we've reached the end.
+#
+# Also return "done" if the user doesn't want any more hints.
 
 sub find_hints {
     
