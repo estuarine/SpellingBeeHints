@@ -119,7 +119,6 @@ sub setup {
         
     }
 
-
 ########################################################################
 # Given a list of lists, look up each one in turn, then return them all at once.
 
@@ -233,7 +232,6 @@ sub download_data {
     
     }
 
-
 ########################################################################
 # Converts 'answers.txt' to 'answersYYYY-MM-DD.txt'
 
@@ -249,7 +247,6 @@ sub add_date_to_filename {
     return $file_name_new;
 
     }
-
 
 ########################################################################
 # Count the frequency of words ('items') in a list, using the set criterion
@@ -269,7 +266,7 @@ sub frequency {
     return \%count;
 
     }
-  
+    
 ########################################################################
 # Figure out where a given word exists in an alphabetized list of words.
 # Note: first_index function is provided by List::MoreUtils
