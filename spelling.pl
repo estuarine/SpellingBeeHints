@@ -83,7 +83,7 @@ sub setup {
     # the user has found), as well as a "function" (which either counts the words that qualify or determines
     # the found words' relative position in the full answer list).
     #
-    # The hints with use the "find missing" compare type also have a criterion (these are all anonymous
+    # The hints that use the "find missing" compare type also have a criterion (these are all anonymous
     # functions, but of course function references would work too), along with a phrase to help the user
     # figure out what the hint is getting at.
     
