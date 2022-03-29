@@ -25,7 +25,6 @@ use Mojo::UserAgent;
 use DateTime;
 use Sort::Key::Natural qw(natsort);
 use List::MoreUtils qw(first_index);
-use Data::Dumper;
 
 # Tracks how many hints you've gotten so far (this resets every time you restart the script)
 my $counter;
