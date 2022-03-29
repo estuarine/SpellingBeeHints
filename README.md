@@ -8,7 +8,7 @@ The script grabs a list of that day's answers downloaded from the analysis site 
 ## It offers four kinds of hints:
 
 - How many more words of various lengths (4 letters, 5 letters, etc.) remain?
-- How many more words remain that beginning with each letter?
+- How many more words remain that begin with each letter?
 - How many missing words remain in between the already-found answers? This hint will also tell you if you found the first and last words.
 - How many more words remain that begin with various two-letter pairs?
 
