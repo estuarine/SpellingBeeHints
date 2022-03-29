@@ -67,7 +67,8 @@ sub setup {
 		   
     # The answers to today's puzzle
     
-    my %answers  = ( filename     => add_date_to_filename( 'lib/answers.txt' ),  # Where to find this file
+    my %answers  = ( filename     => add_date_to_filename( 'lib/answers.txt' ),  # Where to find this file (which
+                                                         			 # will have today's date in the name)
                      find_methods => [ \&read_file, \&download_data ],	# How to find the answers (two ways:
 		                                                        # read the file, or download them if the
 									# file doesn't exist yet)
@@ -121,6 +122,7 @@ sub setup {
 
 
 ########################################################################
+# Given a list of lists, look up each one in turn, then return them all at once.
 
 sub lookup {
     
@@ -132,6 +134,9 @@ sub lookup {
     }
 
 ########################################################################
+# Given a specific list, look it up using the predefined list of methods.
+# If the first method succeeds, return it. If not, keep trying.
+# Return an empty list if nothing works.
 
 sub get_list {
     
@@ -150,6 +155,8 @@ sub get_list {
     }
 
 ########################################################################
+# Read words from a file, if it exists. 
+# Also sort them and make them all lowercase.
 
 sub read_file {
     
@@ -167,8 +174,8 @@ sub read_file {
         
         for my $result( sort @results ) {
             
-            chomp $result;
-            $result =~ s/\s//g;
+            chomp $result;					
+            $result =~ s/\s//g;		# Cut out extra spaces
             push @fixed_results, lc $result if $result gt '';
         
             }
@@ -180,6 +187,7 @@ sub read_file {
     }       
         
 ########################################################################
+# Download words from a website, using CSS selectors, and save them to a file.
 
 sub download_data {
 
@@ -188,7 +196,7 @@ sub download_data {
     my $site     = $params->{ site };
     my $selector = $params->{ selector };
     my $ua       = $params->{ ua };
-    my @results;
+    my @results;			# List for storing the words we find 
     
     say "Downloading words from $site\n";
     
@@ -196,6 +204,7 @@ sub download_data {
 
 	for my $answer( @$answers ) {
 
+		# Strip away html coding for bold type (used for pangrams) 
 		if ( $answer =~ /<strong>(.*)<\/strong>/ ) {
 
 			$answer = $1;
@@ -227,6 +236,7 @@ sub download_data {
 
 
 ########################################################################
+# Converts 'answers.txt' to 'answersYYYY-MM-DD.txt'
 
 sub add_date_to_filename {
     
@@ -243,6 +253,7 @@ sub add_date_to_filename {
 
 
 ########################################################################
+# Count the frequency of words ('items') in a list, using the set criterion
 
 sub frequency {
     
@@ -261,6 +272,8 @@ sub frequency {
     }
   
 ########################################################################
+# Figure out where a given word exists in an alphabetized list of words.
+# Note: first_index function is provided by List::MoreUtils
 
 sub word_positions {
     
@@ -279,6 +292,10 @@ sub word_positions {
     }
     
 ########################################################################
+# Calculate the number of missing words (i.e., how many answers the users
+# has not found yet), based on criteria such as word length or the initial letter.
+# Assemble this information into a list of phrases that will make up the hint.
+# Note: natsort function is provided by Sort::Key::Natural
 
 sub find_missing {
     
