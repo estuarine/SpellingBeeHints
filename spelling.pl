@@ -120,7 +120,8 @@ sub setup {
     }
 
 ########################################################################
-# Given a list of lists, look up each one in turn, then return them all at once.
+# Given a list of word or answer lists, look up each one in turn, 
+# then return them all at once.
 
 sub lookup {
     
