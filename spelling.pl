@@ -27,7 +27,7 @@ use Sort::Key::Natural qw(natsort);
 use List::MoreUtils qw(first_index);
 use Data::Dumper;
 
-# Tracks how many hints you've gotten so far
+# Tracks how many hints you've gotten so far (this resets every time you restart the script)
 my $counter;
 
 # Sets up basic info (configurations for your own words and the downloaded answers, plus the preset hint types)
@@ -327,6 +327,13 @@ sub find_missing {
     }
 
 ########################################################################
+# This function counts how many unfound answers exist before, after and
+# in between the words that the user has found. It does this by comparing
+# the list of the users' words against the full answer list, then assembling
+# that info into phrases that make up the hint.
+#
+# Note: We use $word_word to ensure that the numbers and verbs in each phrase
+# agree grammatically ("1 word" but "2 words," "3 words," etc.).
 
 sub find_before_and_after {
     
@@ -416,6 +423,9 @@ sub find_before_and_after {
     }
 
 ########################################################################
+# Find the next hint using the hint type, word list and answer list this
+# function has been provided. Keep track of how many hints the user has
+# gotten so far, and return "done" if we've reached the end.
 
 sub find_hints {
     
