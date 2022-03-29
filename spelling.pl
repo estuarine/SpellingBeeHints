@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-#############################################################
+########################################################################
 ## Spelling.pl 
 ##
 ## Hints generator for the NYT Spelling Bee (https://www.nytimes.com/puzzles/spelling-bee).
@@ -18,7 +18,7 @@
 ## But the script is flexible enough to add other hints that people may suggest.
 ##
 ## By Bob King, 2021
-#############################################################
+########################################################################
 
 use Modern::Perl;
 use Mojo::UserAgent;
@@ -55,6 +55,7 @@ exit;
 
 #######################################################################
 # Configuration of the main hashes and lists that the script depends on.
+########################################################################
 
 sub setup {
     
@@ -122,6 +123,7 @@ sub setup {
 ########################################################################
 # Given a list of word or answer lists, look up each one in turn, 
 # then return them all at once.
+########################################################################
 
 sub lookup {
     
@@ -136,6 +138,7 @@ sub lookup {
 # Given a specific list, look it up using the predefined list of methods.
 # If the first method succeeds, return it. If not, keep trying.
 # Return an empty list if nothing works.
+########################################################################
 
 sub get_list {
     
@@ -156,6 +159,7 @@ sub get_list {
 ########################################################################
 # Read words from a file, if it exists. 
 # Also sort them and make them all lowercase.
+########################################################################
 
 sub read_file {
     
@@ -186,7 +190,9 @@ sub read_file {
     }       
         
 ########################################################################
-# Download words from a website, using CSS selectors, and save them to a file.
+# Download words from a website, using CSS selectors, and save 
+# them to a file.
+########################################################################
 
 sub download_data {
 
@@ -234,7 +240,8 @@ sub download_data {
     }
 
 ########################################################################
-# Converts 'answers.txt' to 'answersYYYY-MM-DD.txt'
+# Convert 'answers.txt' to 'answersYYYY-MM-DD.txt'
+########################################################################
 
 sub add_date_to_filename {
     
@@ -251,6 +258,7 @@ sub add_date_to_filename {
 
 ########################################################################
 # Count the frequency of words ('items') in a list, using the set criterion
+########################################################################
 
 sub frequency {
     
@@ -271,6 +279,7 @@ sub frequency {
 ########################################################################
 # Figure out where a given word exists in an alphabetized list of words.
 # Note: first_index function is provided by List::MoreUtils
+########################################################################
 
 sub word_positions {
     
@@ -293,6 +302,7 @@ sub word_positions {
 # has not found yet), based on criteria such as word length or the initial letter.
 # Assemble this information into a list of phrases that will make up the hint.
 # Note: natsort function is provided by Sort::Key::Natural
+########################################################################
 
 sub find_missing {
     
@@ -331,6 +341,7 @@ sub find_missing {
 #
 # Note: We use $word_word to ensure that the numbers and verbs in each phrase
 # agree grammatically ("1 word" but "2 words," "3 words," etc.).
+########################################################################
 
 sub find_before_and_after {
     
@@ -425,11 +436,19 @@ sub find_before_and_after {
     }
 
 ########################################################################
-# Find the next hint using the hint type, word list and answer list this
-# function has been provided. Keep track of how many hints the user has
-# gotten so far, and return "done" if we've reached the end.
+# This is the function that makes the whole thing work: 
 #
-# Also return "done" if the user doesn't want any more hints.
+# 1) Find the next set of hints using the hint type, word list, answer 
+# list and compare type that this function has been provided.
+#
+# 2) Tell the hints to the user.
+#
+# 3) Keep track of how many hints the user has gotten so far, 
+# and return "done" if we've reached the end. Also return "done" 
+# if the user doesn't want any more hints.
+#
+# And that's it! We're done.
+########################################################################
 
 sub find_hints {
     
