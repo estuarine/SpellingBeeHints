@@ -5,14 +5,14 @@ This is a hints generator for the New York Times' Spelling Bee (https://www.nyti
 
 The script depends on a list of that day's answers downloaded from the analysis site https://www.nytbee.com/ and compares them with the player's own answers, which the player must store in file called words.txt. Both files must be stored in a /lib subfolder (these settings can, of course, be changed in the script).
 
-It offers four kinds of hints:
+## It offers four kinds of hints:
 
-— How many more words of various lengths (4 letters, 5 letters, etc.) remain?
-— How many more words remain that beginning with each letter?
-— How many missing words remain in between the already-found answers? This hint will also tell you if you found the first and last words.
-— How many more words remain that begin with various two-letter pairs?
+- How many more words of various lengths (4 letters, 5 letters, etc.) remain?
+- How many more words remain that beginning with each letter?
+- How many missing words remain in between the already-found answers? This hint will also tell you if you found the first and last words.
+- How many more words remain that begin with various two-letter pairs?
 
-How to play:
+## How to play:
 
 1) Open up the Spelling Bee and start playing. After you've found some words, copy and paste your answers into /lib/words.txt.
 2) Run the script. It will download the answers from NYTBee and cache them in a file called /lib/answersXXXX-XX-XX.txt (the X's are replaced by today's date).
