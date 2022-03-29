@@ -27,12 +27,17 @@ use Sort::Key::Natural qw(natsort);
 use List::MoreUtils qw(first_index);
 use Data::Dumper;
 
+# Tracks how many hints you've gotten so far
 my $counter;
 
+# Sets up basic info (configurations for your own words and the downloaded answers, plus the preset hint types)
 my ( $my_words, $answers, $hint_types ) = setup();
 
+# Grabs your words list. Also downloads the answers from NYTBee (or, if they've already been downloaded,
+# pulls them from the cached file)
 my ( $words_list, $answers_list ) = lookup( $my_words, $answers );
 
+# Cycles through the hint types and asks one at a time; ends the session if we're done
 for my $hint_type( @$hint_types ) {
     
     $counter++;
@@ -41,7 +46,7 @@ for my $hint_type( @$hint_types ) {
                            $words_list, 
                            $answers_list, 
                            $counter, 
-                           scalar @$hint_types );
+                           scalar @$hint_types );      # length of the hint_types arrayref
     
     last if $hint eq 'done';
 
@@ -50,20 +55,38 @@ for my $hint_type( @$hint_types ) {
 exit;
 
 #######################################################################
+# Configuration of the main hashes and lists that the script depends on.
 
 sub setup {
     
-    my %my_words = ( filename     => 'lib/words.txt',
-                     find_methods => [ \&read_file ],
+    # The words the user has successfully guessed. The user must save these in the selected file
+    
+    my %my_words = ( filename     => 'lib/words.txt',    # Where to find this file
+                     find_methods => [ \&read_file ],    # How to find the words (the only way is to read the file)
                    );
-
-    my %answers  = ( filename     => add_date_to_filename( 'lib/answers.txt' ),
-                     find_methods => [ \&read_file, \&download_data ],
-                     site         => 'https://www.nytbee.com/',
-                     selector     => '#main-answer-list > .column-list > li',
-                     ua           => Mojo::UserAgent->new,
+		   
+    # The answers to today's puzzle
+    
+    my %answers  = ( filename     => add_date_to_filename( 'lib/answers.txt' ),  # Where to find this file
+                     find_methods => [ \&read_file, \&download_data ],	# How to find the answers (two ways:
+		                                                        # read the file, or download them if the
+									# file doesn't exist yet)
+                     site         => 'https://www.nytbee.com/',	# Site where today's answers live             
+                     selector     => '#main-answer-list > .column-list > li',	# CSS selector
+                     ua           => Mojo::UserAgent->new,			# We're using Mojo's useragent
                    );
                
+    # This next list defines the hint types that we will try one at a time. 
+    #
+    # Each hint has its own "compare type" (it will either find the number of missing words that meet 
+    # some criterion, or it will find the number of missing words that exist before or after the words 
+    # the user has found), as well as a "function" (which either counts the words that qualify or determines
+    # the found words' relative position in the full answer list).
+    #
+    # The hints with use the "find missing" compare type also have a criterion (these are all anonymous
+    # functions, but of course function references would work too), along with a phrase to help the user
+    # figure out what the hint is getting at.
+    
     my @hint_types = ( 
                        # Lengths of missing words
                        { compare_type => \&find_missing,
