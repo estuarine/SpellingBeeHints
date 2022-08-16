@@ -8,7 +8,7 @@
 ## Uses answer lists from the analysis site https://www.nytbee.com/ and compares them
 ## to the player's own answers.
 ##
-## It offers three kinds of hints:
+## It offers four kinds of hints:
 ##
 ## -- How many more words of various lengths remain?
 ## -- How many more words remain that beginning with each letter?
